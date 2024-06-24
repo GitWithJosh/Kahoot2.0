@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 40%;
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    box-shadow: #ccc 0px 0px 10px;
+}
+
+.correct {
+    background-color: green;
+}
+
+.incorrect {
+background-color: red;
+}
+
+button {
+display: block;
+margin: 5px;
+}
