@@ -2,7 +2,7 @@
 Kahoot clone for course project
 
 How to start:
-- clone repisotory
+- clone repository
 - change directory to project directory
 - run "npm install" to install dependencies
 - change directory to server directory
