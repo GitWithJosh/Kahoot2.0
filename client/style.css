@@ -1,24 +1,102 @@
 body {
+    background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    color: black;
+}
+
+header {
+    background-color: whitesmoke;
+    color: black;
+    padding: 10px 0;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .container {
-    width: 40%;
-    max-width: 100%;
-    margin: 10px auto;
-    overflow: hidden;
+    margin: 20px auto;
+    width: 80%;
+}
+
+.question-container, .answer-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
+}
+
+.question-container {
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.timer, .question, .skip {
+    display: flex;
     align-items: center;
-    border: 1px solid #ccc;
-    box-shadow: #ccc 0px 0px 10px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
+    justify-content: center;
+    background-color: white;
+    text-align: center;
+}
+
+.timer {
+    flex: 1;
+}
+
+.question {
+    flex: 2;
+}
+
+.skip {
+    flex: 1;
+    display: flex;
+}
+
+.skip button {
+    background-color: lightseagreen;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+}
+
+.skip button:hover {
+    opacity: 0.8;
+}
+
+.answer-container {
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.answer-container button {
+    flex: 1 1 45%;
+    padding: 30px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+}
+
+.answer-container button:hover {
+    opacity: 0.8;
+}
+
+.answer-container .red { background-color: red; }
+.answer-container .blue { background-color: blue; }
+.answer-container .yellow { background-color: darkgoldenrod; }
+.answer-container .green { background-color: green; }
+
+footer {
+    background-color: white;
+    color: black;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .correct {
@@ -29,49 +107,4 @@ body {
 .incorrect {
     background-color: red;
     color: #fff;
-}
-
-button {
-    display: block;
-    margin: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.next-button {
-    margin-top: 20px;
-}
-
-.btn-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.timer {
-    font-size: 1.2em;
-    color: #333;
-    margin-top: 10px;
-}
-
-@media (max-width: 600px) {
-    .container {
-        width: 90%;
-        box-shadow: none;
-        padding: 10px;
-    }
-    h1 {
-        font-size: 1.5em;
-    }
 }

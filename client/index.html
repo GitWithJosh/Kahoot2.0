@@ -1,29 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Quiz</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kahoot2.0</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container" id="start-page">
-        <h1>Willkommen zu Kahoot 2.0!</h1>
-        <p>So spielst du mit:</p>
-        <ul>
-            <li>Jede Frage hat vier Antwortmöglichkeiten.</li>
-            <li>Wähle die richtige Antwort aus.</li>
-            <li>Deine Auswahl wird grün, wenn sie richtig ist, und rot, wenn sie falsch ist.</li>
-        </ul>
-        <button id="start-button">Spiel starten</button>
-    </div>
-
-    <div class="container" id="quiz-container" style="display: none;">
-        <h1>Kahoot 2.0!</h1>
-        <div id="question-container"></div>
-        <div id="answer-buttons" class="btn-container"></div>
-        <div id="timer" class="timer"></div>
-        <button id="next-button" class="next-button" style="display: none;">Nächste Frage</button>
-    </div>
-
+    <header class="question">
+        <h2>Question Number</h2>
+    </header>
+    <main>
+        <div class="container">
+            <div class="question-container">
+                <div class="timer">
+                    <svg width="100" height="100">
+                        <circle cx="50" cy="50" r="40" stroke-width="3" fill="purple" />
+                        <text x="50%" y="50%" text-anchor="middle" dy="15%" dx="-2%" fill="white" font-size="40"></text>
+                    </svg>                    
+                </div>
+                <div class="question">
+                    <p></p>
+                </div>
+                <div class="skip">
+                    <button>Skip</button>
+                </div>
+            </div>
+            <div class="answer-container">
+                <button class="red"></button>
+                <button class="blue"></button>
+                <button class="yellow"></button>
+                <button class="green"></button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>Player Name</p>
+        <p>Score</p>
+    </footer>
     <script src="client.js"></script>
 </body>
 </html>
