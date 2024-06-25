@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let questions = [];
   let currentQuestionIndex = 0;
   let timer;
+  let playerName = 'Josh'; // Default player name
   const timeLimit = 20; // Time limit for each question in seconds
 
   socket.addEventListener('open', function (event) {
@@ -20,16 +21,18 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelector('.skip button').addEventListener('click', skipQuestion);
 
   function startQuiz() {
+    document.getElementById('player-name').innerText = `Player Name: ${playerName}`;
     setNextQuestion();
   }
 
   function setNextQuestion() {
     resetState();
     if (currentQuestionIndex < questions.length) {
-      showQuestion(questions[currentQuestionIndex]);
-      startTimer();
+        document.getElementById('question-number').innerText = `Question ${currentQuestionIndex + 1}`;
+        showQuestion(questions[currentQuestionIndex]);
+        startTimer();
     } else {
-      console.log('Quiz ended!');
+        console.log('Quiz ended!');
     }
   }
 
@@ -78,45 +81,49 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.incorrect')?.classList.remove('incorrect');
   }
 
-  function selectAnswer(answerButton, correctAnswer) {
+  let score = 0;
+
+function selectAnswer(answerButton, correctAnswer) {
     clearInterval(timer);
 
     if (answerButton) {
-      answerButton.disabled = true; // Disable the selected button
+        answerButton.disabled = true; // Disable the selected button
 
-      if (answerButton.innerText === correctAnswer) {
-        answerButton.classList.add('correct');
-      } else {
-        answerButton.classList.add('incorrect');
-        // Optionally, you can highlight the correct answer here
-        document.querySelectorAll('.answer-button').forEach(button => {
-          if (button.innerText === correctAnswer) {
-            button.classList.add('correct');
-          }
-        });
-      }
+        if (answerButton.innerText === correctAnswer) {
+            answerButton.classList.add('correct');
+            score++; // Increment score for correct answer
+            document.getElementById('score').innerText = `Score: ${score}`;
+        } else {
+            answerButton.classList.add('incorrect');
+            // Optionally, you can highlight the correct answer here
+            document.querySelectorAll('.answer-button').forEach(button => {
+                if (button.innerText === correctAnswer) {
+                    button.classList.add('correct');
+                }
+            });
+        }
     }
 
     // Remove all other answer buttons
     document.querySelectorAll('.answer-button').forEach(button => {
-      if (button !== answerButton) {
-        button.remove();
-      }
-      // Make selected answer button default color
-      button.classList.remove('red', 'blue', 'yellow', 'green');
+        if (button !== answerButton) {
+            button.remove();
+        }
+        // Make selected answer button default color
+        button.classList.remove('red', 'blue', 'yellow', 'green');
     });
 
     if (currentQuestionIndex < questions.length - 1) {
-      setTimeout(() => {
-        currentQuestionIndex++;
-        setNextQuestion();
-      }, 1000); // Move to next question after 1 second
+        setTimeout(() => {
+            currentQuestionIndex++;
+            setNextQuestion();
+        }, 1000); // Move to next question after 1 second
     } else {
-      // End of quiz logic
-      setTimeout(() => {
-        alert('Quiz ended!');
-        location.reload(); // Reload page to restart quiz
-      }, 2000);
+        // End of quiz logic
+        setTimeout(() => {
+            alert('Quiz ended!');
+            location.reload(); // Reload page to restart quiz
+        }, 2000);
     }
   }
 
@@ -148,5 +155,14 @@ document.addEventListener('DOMContentLoaded', function () {
         selectAnswer(null, questions[currentQuestionIndex].correctAnswer); // Auto-select correct answer if time runs out
       }
     }, 1000);
+
+    // If last question is skipped, end the quiz
+    if (currentQuestionIndex === questions.length - 1) {
+      // End of quiz logic
+      setTimeout(() => {
+        alert('Quiz ended!');
+        location.reload(); // Reload page to restart quiz
+      }, 2000);
+    }
   }  
 });
