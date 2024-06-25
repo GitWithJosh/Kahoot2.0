@@ -5,10 +5,25 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Kahoot 2.0!</h1>
-        <div id="quiz-container"></div>
+    <div class="container" id="start-page">
+        <h1>Willkommen zu Kahoot 2.0!</h1>
+        <p>So spielst du mit:</p>
+        <ul>
+            <li>Jede Frage hat vier Antwortmöglichkeiten.</li>
+            <li>Wähle die richtige Antwort aus.</li>
+            <li>Deine Auswahl wird grün, wenn sie richtig ist, und rot, wenn sie falsch ist.</li>
+        </ul>
+        <button id="start-button">Spiel starten</button>
     </div>
+
+    <div class="container" id="quiz-container" style="display: none;">
+        <h1>Kahoot 2.0!</h1>
+        <div id="question-container"></div>
+        <div id="answer-buttons" class="btn-container"></div>
+        <div id="timer" class="timer"></div>
+        <button id="next-button" class="next-button" style="display: none;">Nächste Frage</button>
+    </div>
+
     <script src="client.js"></script>
 </body>
 </html>
