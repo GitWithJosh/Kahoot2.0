@@ -5,7 +5,6 @@ How to start:
 - clone repository
 - change directory to project directory
 - run "npm install" to install dependencies
-- change directory to server directory
-- run "node server.js" in terminal
-- run "index.html" with Live Server
+- run "node server/server.js" in terminal
+- start "localhost:3000" in your browser
 - play!
