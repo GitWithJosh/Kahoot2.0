@@ -11,8 +11,11 @@ const server = app.listen(port, () => {
 
 const wss = new WebSocket.Server({ server });
 
+// Serve the Client html and scripts
+app.use(express.static('./client'));
+
 let questions = [];
-fs.readFile('../config/questions.json', 'utf8', (err, data) => {
+fs.readFile('./config/questions.json', 'utf8', (err, data) => {
   if (err) {
     console.error("Failed to load questions:", err);
   } else {
