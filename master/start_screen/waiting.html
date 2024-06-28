@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kahoot - Waiting</title>
+    <link rel="stylesheet" href="start.css">
+</head>
+<body>
+    <header class="welcome">
+        <h2>Welcome to the quiz game!</h2>
+    </header>
+    <main>
+        <div class="container">
+            <h3>Hang tight. Waiting for others to join....</h3>
+            <p>Your username: <span id="displayUsername"></span></p>
+            <form id="changeUsernameForm">
+                <input type="text" id="newUsername" name="newUsername" placeholder="Enter new username" required>
+                <button type="submit" class="button">Change Username</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>KaHUT2.0 &copy; All rights reserved</p>
+    </footer>
+    <script src="start.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Benutzernamen aus dem localStorage laden, falls vorhanden
+            var savedUsername = localStorage.getItem('username');
+            if (savedUsername) {
+                document.getElementById('displayUsername').textContent = savedUsername;
+            }
+
+            // Formular zum Ändern des Benutzernamens abfangen
+            var changeUsernameForm = document.getElementById('changeUsernameForm');
+            if (changeUsernameForm) {
+                changeUsernameForm.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Verhindert das Standardformularverhalten
+
+                    var newUsername = document.getElementById('newUsername').value;
+
+                    // Speichere den neuen Benutzernamen im localStorage
+                    localStorage.setItem('username', newUsername);
+
+                    // Aktualisiere den angezeigten Benutzernamen
+                    document.getElementById('displayUsername').textContent = newUsername;
+
+                    // Leere das Eingabefeld
+                    document.getElementById('newUsername').value = '';
+                });
+            } else {
+                console.error('Formular mit der ID "changeUsernameForm" wurde nicht gefunden.');
+            }
+        });
+    </script>
+</body>
+</html>
