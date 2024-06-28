@@ -100,7 +100,7 @@ app.post('/master/upload', upload.single('quizFile'), async (req, res) => {
 });
 
 // Load questions from file
-questions = readJsonFile('./game_data/questions.json').questions;
+questions = readJsonFile('./game_data/questions.json');
 
 app.post('/master/create_game', async (req, res) => {
   // Create game room with master player
@@ -113,7 +113,24 @@ app.post('/master/create_game', async (req, res) => {
       game_created = true;
       res.status(200).json({ message: 'Game room created' });
     } catch (err) {
-      console.error('Failed to create game:', error);
+      console.error('Failed to create game:', err);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+});
+
+app.get('/master/get_players', async (req, res) => {
+  // Get all players
+  if (game_created === false) {
+    res.status(400).json({ message: 'Game room not created' });
+  }
+  else {
+    try{
+      const players = await readJsonFile('./game_data/players.json');
+      const playerNames = Object.keys(players).map((id) => players[id].name);
+      res.status(200).json({ players: playerNames });
+    } catch (err) {
+      console.error('Failed to get players:', err);
       res.status(500).json({ message: 'Internal server error' });
     }
   }
@@ -127,17 +144,17 @@ app.post('/player/join_game', async (req, res) => {
   if (game_created === false) {
     res.status(400).json({ message: 'Game room not created' });
   }
-  else if (players.length >= 40) {
+  else if (Object.keys(players).length >= 40) {
     res.status(400).json({ message: 'Game room full' });
   }
   else {
     try{
       const id = generateID();
-      players = await readJsonFile('./game_data/players.json').players;
       // Add player with a unique ID to players list and set score to 0
-      players.push(id);
-      players[id].name = playerName;
-      players[id].score = 0;
+      players[id] = {
+        name: playerName,
+        score: 0
+      };
       await writeJsonFile('./game_data/players.json', players);
       res.status(200).json({ message: 'Player added', id: id});
     } catch (err) {
@@ -149,18 +166,19 @@ app.post('/player/join_game', async (req, res) => {
 
 app.post('/master/start_game', async (req, res) => {
   // Start the game
+  let players = await readJsonFile('./game_data/players.json');
   if (game_created === false) {
     res.status(400).json({ message: 'Game room not created' });
   }
-  else if (players.length < 1) {
+  else if (Object.keys(players).length < 1) {
     res.status(400).json({ message: 'Not enough players' });
   }
   else {
       // Send questions to all players
       res.status(200).json({ message: 'Game started' });
-      //broadcastMessage('./game_data/questions.json');
-      await game_loop();
+      broadcastMessage(JSON.stringify({ type: 'start-game' }));
       broadcastMessage('./game_data/players.json');
+      await game_loop();
   }
 });
 
@@ -168,7 +186,8 @@ let answersReceived; // Declare answersReceived variable globally
 let timeoutId; // Declare timeoutId variable globally
 
 async function game_loop(){
-  for (let i = 0; i < questions.length; i++) {
+  console.log(questions)
+  for (let i = 0; i < Object.keys(questions).length; i++) {
     // Show question to all players
     const message = {
       type: 'next-question',
@@ -184,7 +203,7 @@ async function game_loop(){
 
 function handleAnswer(players) {
   answersReceived ++;
-  if (answersReceived === players.length) {
+  if (answersReceived === Object.keys(players).length) {
     // Cancel game loop timer
     clearTimeout(timeoutId);
   }
@@ -208,7 +227,7 @@ app.post('/player/score', async (req, res) => {
       // Check if all players have answered
       handleAnswer(players);
     } catch (err) {
-      console.error(`Failed to add score:`, error);
+      console.error(`Failed to add score:`, err);
       res.status(500).json({ message: 'Internal server error' });
     }
   }

@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Username gespeichert:', username);
 
             // Leite auf die waiting.html-Seite weiter
-            //window.location.href = '/player/start_screen/waiting.html';
+            window.location.href = '/player/start_screen/waiting.html';
             joinGame();
         });
     }

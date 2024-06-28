@@ -1,54 +1,53 @@
 {
-  "questions": [
-      {
-          "question": "What is 2+2?",
-          "answers": ["2", "3", "4", "5"],
-          "correctAnswer": "4"
-      },
-      {
-          "question": "What is the capital of France?",
-          "answers": ["Berlin", "Madrid", "London", "Paris"],
-          "correctAnswer": "Paris"
-      },
-      {
-          "question": "Which planet is known as the Red Planet?",
-          "answers": ["Earth", "Mars", "Jupiter", "Saturn"],
-          "correctAnswer": "Mars"
-      },
-      {
-          "question": "What is the largest mammal in the world?",
-          "answers": ["Elephant", "Blue Whale", "Shark", "Giraffe"],
-          "correctAnswer": "Blue Whale"
-      },
-      {
-          "question": "What is the boiling point of water?",
-          "answers": ["90°C", "95°C", "100°C", "110°C"],
-          "correctAnswer": "100°C"
-      },
-      {
-          "question": "What is the chemical symbol for gold?",
-          "answers": ["Au", "Ag", "Pb", "Fe"],
-          "correctAnswer": "Au"
-      },
-      {
-          "question": "Who wrote 'Hamlet'?",
-          "answers": ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"],
-          "correctAnswer": "William Shakespeare"
-      },
-      {
-          "question": "What is the capital city of Japan?",
-          "answers": ["Seoul", "Beijing", "Tokyo", "Bangkok"],
-          "correctAnswer": "Tokyo"
-      },
-      {
-          "question": "What is the speed of light?",
-          "answers": ["300,000 km/s", "150,000 km/s", "450,000 km/s", "600,000 km/s"],
-          "correctAnswer": "300,000 km/s"
-      },
-      {
-          "question": "Which element is a gas at room temperature?",
-          "answers": ["Mercury", "Oxygen", "Lead", "Iron"],
-          "correctAnswer": "Oxygen"
-      }
-  ]
+    "questions": [{
+        "question": "What is 2+2?",
+        "answers": ["2", "3", "4", "5"],
+        "correctAnswer": "4"
+    },
+    {
+        "question": "What is the capital of France?",
+        "answers": ["Berlin", "Madrid", "London", "Paris"],
+        "correctAnswer": "Paris"
+    },
+    {
+        "question": "Which planet is known as the Red Planet?",
+        "answers": ["Earth", "Mars", "Jupiter", "Saturn"],
+        "correctAnswer": "Mars"
+    },
+    {
+        "question": "What is the largest mammal in the world?",
+        "answers": ["Elephant", "Blue Whale", "Shark", "Giraffe"],
+        "correctAnswer": "Blue Whale"
+    },
+    {
+        "question": "What is the boiling point of water?",
+        "answers": ["90°C", "95°C", "100°C", "110°C"],
+        "correctAnswer": "100°C"
+    },
+    {
+        "question": "What is the chemical symbol for gold?",
+        "answers": ["Au", "Ag", "Pb", "Fe"],
+        "correctAnswer": "Au"
+    },
+    {
+        "question": "Who wrote 'Hamlet'?",
+        "answers": ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"],
+        "correctAnswer": "William Shakespeare"
+    },
+    {
+        "question": "What is the capital city of Japan?",
+        "answers": ["Seoul", "Beijing", "Tokyo", "Bangkok"],
+        "correctAnswer": "Tokyo"
+    },
+    {
+        "question": "What is the speed of light?",
+        "answers": ["300,000 km/s", "150,000 km/s", "450,000 km/s", "600,000 km/s"],
+        "correctAnswer": "300,000 km/s"
+    },
+    {
+        "question": "Which element is a gas at room temperature?",
+        "answers": ["Mercury", "Oxygen", "Lead", "Iron"],
+        "correctAnswer": "Oxygen"
+    }
+    ]
 }

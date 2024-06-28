@@ -13,8 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
   socket.onopen = () => {
     console.log('WebSocket Client Connected');
   };
-
-  /*
+  
   socket.onmessage = (message) => {
     const data = JSON.parse(message.data);
     if (data.type === 'next-question') {
@@ -38,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }, 1000); // 1 second
     }
       
-  };*/
+  };
 
   // TODO Implement logic to handle html elements
 });
@@ -68,7 +67,6 @@ function uploadQuestions() {
     }
   })
 }
-
 
 function startGame() {
   // Start the game

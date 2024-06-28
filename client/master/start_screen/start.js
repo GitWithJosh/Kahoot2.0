@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (form) {
         form.addEventListener('submit', function(event) {
             event.preventDefault(); // Verhindert das Standardformularverhalten
+            // Redirect to master start screen
+            window.location.href = '/master/start_screen/waiting.html';
             createGame();
         });
     } else {

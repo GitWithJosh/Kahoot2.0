@@ -1,5 +1,82 @@
 {
-    "players": {
-
-    }
+  "player1": {
+    "name": "Player 1",
+    "score": 0
+  },
+  "player2": {
+    "name": "Player 2",
+    "score": 0
+  },
+  "lxyth4wz3ie8ooqw5": {
+    "name": "test",
+    "score": 0
+  },
+  "lxythnkjs59nnvc7v": {
+    "name": "test",
+    "score": 0
+  },
+  "lxythq31e3wfr5pdm": {
+    "name": "test",
+    "score": 0
+  },
+  "lxythrlk1avz9m4b4": {
+    "name": "test",
+    "score": 0
+  },
+  "lxytj3bwkh65qomus": {
+    "name": "test",
+    "score": 0
+  },
+  "lxytjdcsqtdzrfbhb": {
+    "name": "test",
+    "score": 0
+  },
+  "lxytjj80t9xt6myha": {
+    "name": "test",
+    "score": 0
+  },
+  "lxytkgi6ehkvpwwtl": {
+    "name": "Test",
+    "score": 0
+  },
+  "lxytlnmadj646ei17": {
+    "name": "test",
+    "score": 0
+  },
+  "lxytm7hn27b4g4bik": {
+    "name": "test",
+    "score": 0
+  },
+  "lxytm9y5iocg65ey8": {
+    "name": "test",
+    "score": 0
+  },
+  "lxytmy1xai8w8ur7l": {
+    "name": "test",
+    "score": 0
+  },
+  "lxytn0am4zjwfxo3n": {
+    "name": "test",
+    "score": 0
+  },
+  "lxyto8onaw28n7ekf": {
+    "name": "test",
+    "score": 0
+  },
+  "lxytql1o5qond0kp0": {
+    "name": "Joshua",
+    "score": 0
+  },
+  "lxyv2zbdjr6nr969b": {
+    "name": "admin",
+    "score": 0
+  },
+  "lxyv3bew5a1mcy9jh": {
+    "name": "Test",
+    "score": 0
+  },
+  "lxyv3ksm5l2zftwtj": {
+    "name": "Test",
+    "score": 0
+  }
 }

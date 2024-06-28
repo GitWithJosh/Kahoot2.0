@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kahoot - Waiting</title>
-    <link rel="stylesheet" href="start.css">
+    <link rel="stylesheet" href="/master/start_screen/start.css">
 </head>
 <body>
     <header class="welcome">
@@ -12,47 +12,61 @@
     </header>
     <main>
         <div class="container">
-            <h3>Hang tight. Waiting for others to join....</h3>
-            <p>Your username: <span id="displayUsername"></span></p>
-            <form id="changeUsernameForm">
-                <input type="text" id="newUsername" name="newUsername" placeholder="Enter new username" required>
-                <button type="submit" class="button">Change Username</button>
-            </form>
+            <h3>Current Users:</h3>
+            <div class="users">
+            </div>
+            <button type="submit" class="button">Start Game</button>
         </div>
     </main>
     <footer>
         <p>KaHUT2.0 &copy; All rights reserved</p>
     </footer>
-    <script src="start.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Benutzernamen aus dem localStorage laden, falls vorhanden
-            var savedUsername = localStorage.getItem('username');
-            if (savedUsername) {
-                document.getElementById('displayUsername').textContent = savedUsername;
-            }
-
-            // Formular zum Ändern des Benutzernamens abfangen
-            var changeUsernameForm = document.getElementById('changeUsernameForm');
-            if (changeUsernameForm) {
-                changeUsernameForm.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Verhindert das Standardformularverhalten
-
-                    var newUsername = document.getElementById('newUsername').value;
-
-                    // Speichere den neuen Benutzernamen im localStorage
-                    localStorage.setItem('username', newUsername);
-
-                    // Aktualisiere den angezeigten Benutzernamen
-                    document.getElementById('displayUsername').textContent = newUsername;
-
-                    // Leere das Eingabefeld
-                    document.getElementById('newUsername').value = '';
+        // Display the current users in the waiting room
+        const users = document.querySelector('.users');
+        // Fetch the current users from the server every 2 seconds
+        setInterval(() => {
+            // Clear all p elements in the users div
+            users.querySelectorAll('p').forEach(p => p.remove());
+            fetch('/master/get_players')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    player = document.querySelector('.users');
+                    player.innerHTML = '';
+                    playerNames = data.players;
+                    for (let i = 0; i < playerNames.length; i++) {
+                        const p = document.createElement('p');
+                        p.textContent = playerNames[i];
+                        player.appendChild(p);
+                    }
                 });
-            } else {
-                console.error('Formular mit der ID "changeUsernameForm" wurde nicht gefunden.');
-            }
+        }, 2000);
+
+        // Start the game when the button is clicked
+        // Stop fetching the players when the button is clicked
+        const startButton = document.querySelector('.button');
+        startButton.addEventListener('click', () => {
+            startGame();
+            clearInterval();
+            console.log('Stopped fetching players');
+            window.location.href = '/master/question_screen/question.html';
         });
+
+        function startGame() {
+            console.log('Starting game...');
+            // Start the game
+            fetch(`/master/start_game`, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error starting game:', error));
+        }
     </script>
 </body>
 </html>
