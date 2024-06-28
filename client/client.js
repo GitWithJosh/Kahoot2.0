@@ -1,168 +1,154 @@
+const serverUrl = 'http://localhost:3000';
+let questions = [];
+let currentQuestionIndex = 0;
+let timer;
+let playerName; // player name
+let intervalId; // interval id for timer
+const timeLimit = 30; // Time limit for each question in seconds
+
 document.addEventListener('DOMContentLoaded', function () {
   const socket = new WebSocket('ws://localhost:3000');
 
-  let questions = [];
-  let currentQuestionIndex = 0;
-  let timer;
-  let playerName = 'Josh'; // Default player name
-  const timeLimit = 20; // Time limit for each question in seconds
+  socket.onopen = () => {
+    console.log('WebSocket Client Connected');
+  };
 
-  socket.addEventListener('open', function (event) {
-    console.log('Connected to server');
-    socket.send('Hello Server!');
-  });
-
-  socket.addEventListener('message', function (event) {
-    console.log('Message from server', event.data);
-    questions = JSON.parse(event.data);
-    startQuiz();
-  });
-
-  document.querySelector('.skip button').addEventListener('click', skipQuestion);
-
-  function startQuiz() {
-    document.getElementById('player-name').innerText = `Player Name: ${playerName}`;
-    setNextQuestion();
-  }
-
-  function setNextQuestion() {
-    resetState();
-    if (currentQuestionIndex < questions.length) {
-        document.getElementById('question-number').innerText = `Question ${currentQuestionIndex + 1}`;
-        showQuestion(questions[currentQuestionIndex]);
-        startTimer();
-    } else {
-        console.log('Quiz ended!');
-    }
-  }
-
-  function showQuestion(question) {
-    document.querySelector('.question p').innerText = question.question;
-    document.querySelector('.timer text').innerText = timeLimit; // Initial timer display
-
-    const answerContainer = document.querySelector('.answer-container');
-    question.answers.forEach((answer, index) => {
-      const answerButton = document.createElement('button');
-      answerButton.innerText = answer;
-      answerButton.classList.add('answer-button');
-      answerButton.dataset.index = index; // Store answer index for checking correctness
-
-      // Apply button color class based on index (assuming index corresponds to your color classes)
-      switch (index) {
-        case 0:
-          answerButton.classList.add('red');
-          break;
-        case 1:
-          answerButton.classList.add('blue');
-          break;
-        case 2:
-          answerButton.classList.add('yellow');
-          break;
-        case 3:
-          answerButton.classList.add('green');
-          break;
-        default:
-          answerButton.classList.add('blue'); // Default color for any additional answers
-          break;
+  socket.onmessage = (message) => {
+    const data = JSON.parse(message.data);
+    if (data.type === 'next-question') {
+      // Display question and answers to player as well as start timer
+      document.getElementById('question').innerText = data.question.question;
+      for (let i = 0; i < data.question.answers.length; i++) {
+        document.getElementById(`answer${i}`).innerText = data.question.answers[i]; // Eventually replace to match with HTML Requirements
       }
-
-      answerButton.addEventListener('click', () => selectAnswer(answerButton, question.correctAnswer));
-      answerContainer.appendChild(answerButton);
-    });
-  }
-
-  function resetState() {
-    clearInterval(timer);
-    const answerContainer = document.querySelector('.answer-container');
-    while (answerContainer.firstChild) {
-      answerContainer.removeChild(answerContainer.firstChild);
-    }
-    document.querySelector('.correct')?.classList.remove('correct');
-    document.querySelector('.incorrect')?.classList.remove('incorrect');
-  }
-
-  let score = 0;
-
-function selectAnswer(answerButton, correctAnswer) {
-    clearInterval(timer);
-
-    if (answerButton) {
-        answerButton.disabled = true; // Disable the selected button
-
-        if (answerButton.innerText === correctAnswer) {
-            answerButton.classList.add('correct');
-            score++; // Increment score for correct answer
-            document.getElementById('score').innerText = `Score: ${score}`;
-        } else {
-            answerButton.classList.add('incorrect');
-            // Optionally, you can highlight the correct answer here
-            document.querySelectorAll('.answer-button').forEach(button => {
-                if (button.innerText === correctAnswer) {
-                    button.classList.add('correct');
-                }
-            });
+      // Increase Question Index
+      currentQuestionIndex++;
+      timer = timeLimit;
+      document.getElementById('timer').innerText = timer;
+      clearInterval(intervalId); // Clear previous interval
+      intervalId = setInterval(() => {
+        // count down timer
+        timer--;
+        document.getElementById('timer').innerText = timer;
+        if (timer === 0) {
+          clearInterval(intervalId);
         }
+      }, 1000); // 1 second
     }
+  };
 
-    // Remove all other answer buttons
-    document.querySelectorAll('.answer-button').forEach(button => {
-        if (button !== answerButton) {
-            button.remove();
-        }
-        // Make selected answer button default color
-        button.classList.remove('red', 'blue', 'yellow', 'green');
-    });
-
-    if (currentQuestionIndex < questions.length - 1) {
-        setTimeout(() => {
-            currentQuestionIndex++;
-            setNextQuestion();
-        }, 1000); // Move to next question after 1 second
-    } else {
-        // End of quiz logic
-        setTimeout(() => {
-            alert('Quiz ended!');
-            location.reload(); // Reload page to restart quiz
-        }, 2000);
-    }
-  }
-
-  function skipQuestion() {
-    clearInterval(timer);
-    currentQuestionIndex++;
-    setNextQuestion();
-  }
-
-  function startTimer() {
-    let timeLeft = timeLimit;
-    const timerElement = document.querySelector('.timer text');
-    
-    // Function to update the timer display
-    function updateTimerDisplay() {
-      timerElement.textContent = timeLeft;
-    }
-    
-    // Initial update of the timer display
-    updateTimerDisplay();
-    
-    // Interval to countdown every second
-    timer = setInterval(() => {
-      timeLeft--;
-      updateTimerDisplay();
-      
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        selectAnswer(null, questions[currentQuestionIndex].correctAnswer); // Auto-select correct answer if time runs out
-      }
-    }, 1000);
-
-    // If last question is skipped, end the quiz
-    if (currentQuestionIndex === questions.length - 1) {
-      // End of quiz logic
-      setTimeout(() => {
-        alert('Quiz ended!');
-        location.reload(); // Reload page to restart quiz
-      }, 2000);
-    }
-  }  
+  // TODO Implement logic to handle html elements
 });
+
+function uploadQuestions() {
+  // Allow user to upload questions file
+  // Read file from input 
+  const file = document.getElementById('file').files[0];
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    questions = JSON.parse(event.target.result);
+  };
+  reader.readAsText(file);
+
+  // Send questions to server
+  fetch(`${serverUrl}/master/upload`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(questions)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      alert(data.message);
+    }
+  })
+}
+
+function createGame() {
+  // Create game room as master
+  playerName = document.getElementById('playerName').value;
+  fetch(`${serverUrl}/master/create_game`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ name: playerName })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      alert(data.message);
+    }
+  })
+  .catch(error => console.error('Error creating game:', error));
+}
+
+function joinGame() {
+  // Join game room as player
+  playerName = document.getElementById('playerName').value;
+  fetch(`${serverUrl}/player/join_game`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ name: playerName })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      alert(data.message);
+    }
+  })
+  .catch(error => console.error('Error joining game:', error));
+}
+
+function startGame() {
+  // Start the game
+  fetch(`${serverUrl}/master/start_game`, {
+    method: 'POST'
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      alert(data.message);
+    }
+  })
+  .catch(error => console.error('Error starting game:', error));
+}
+
+function updateScore() {
+  // Update player score in server's JSON file
+  fetch(`${serverUrl}/player/score`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ name: playerName, score: 10 })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      alert(data.message);
+    }
+  })
+  .catch(error => console.error('Error updating score:', error));
+
+  // Load waiting screen
+  // TODO: Add waiting screen
+}
+
+function endGame() {
+  // End the game and clear the room
+  fetch(`${serverUrl}/master/end_game`, {
+    method: 'POST'
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      alert(data.message);
+    }
+  })
+  .catch(error => console.error('Error ending game:', error));
+}
