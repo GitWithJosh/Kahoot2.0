@@ -58,7 +58,7 @@ function broadcastMessage(message) {
 // (Optional) Let user upload questions file
   // Load the uploaded quiz file into memory
 
-app.post('/upload', upload.single('quizFile'), (req, res) => {
+app.post('master/upload', upload.single('quizFile'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
@@ -84,7 +84,7 @@ wss.on('connection', (ws) => {
 // Initially set on False when no room has been created
 game_created = false;
 
-app.post('/create_game', async (req, res) => {
+app.post('master/create_game', async (req, res) => {
   // Create game room with master player
   if (game_created === true) {
     res.status(400).json({ message: 'Game room already created' });
@@ -106,7 +106,7 @@ app.post('/create_game', async (req, res) => {
   }
 });
 
-app.post('/join_game', async (req, res) => {
+app.post('player/join_game', async (req, res) => {
   // Add User to JSON file
   const playerName = req.body.name
   
@@ -132,7 +132,7 @@ app.post('/join_game', async (req, res) => {
   }
 });
 
-app.post('/start_game', async (req, res) => {
+app.post('master/start_game', async (req, res) => {
   // Start the game
   if (game_created === false) {
     res.status(400).json({ message: 'Game room not created' });
@@ -175,7 +175,7 @@ function handleAnswer(players) {
   }
 }
 
-app.post('/score', async (req, res) => {
+app.post('player/score', async (req, res) => {
   // Get score from player
   if (game_created === false) {
     res.status(400).json({ message: 'Game room not created' });
@@ -200,7 +200,7 @@ app.post('/score', async (req, res) => {
   }
 });
 
-app.post('/end_game', async (req, res) => {
+app.post('master/end_game', async (req, res) => {
   // End the game
   if (game_created === false) {
     res.status(400).json({ message: 'Game room not created' });
