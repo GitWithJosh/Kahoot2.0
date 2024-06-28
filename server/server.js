@@ -56,15 +56,15 @@ function broadcastMessage(message) {
 }
 
 // (Optional) Let user upload questions file
-  // Load the uploaded quiz file into memory
-
-app.post('master/upload', upload.single('quizFile'), (req, res) => {
+// Load the uploaded quiz file into memory
+app.post('master/upload', upload.single('quizFile'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
   // Load the uploaded quiz file into JSON
   const quizFile = req.file;
-  writeJsonFile('./game_data/questions.json', JSON.parse(quizFile.buffer.toString()))
+  await writeJsonFile('./game_data/questions.json', JSON.parse(quizFile.buffer.toString()))
+  res.status(200).json({message: 'File uploaded'});
 });
 
 // Load questions from file
