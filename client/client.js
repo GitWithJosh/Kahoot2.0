@@ -3,6 +3,7 @@ let questions = [];
 let currentQuestionIndex = 0;
 let timer;
 let playerName; // player name
+let playerId; // player id
 let intervalId; // interval id for timer
 const timeLimit = 30; // Time limit for each question in seconds
 
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('WebSocket Client Connected');
   };
 
+  /*
   socket.onmessage = (message) => {
     const data = JSON.parse(message.data);
     if (data.type === 'next-question') {
@@ -35,7 +37,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }, 1000); // 1 second
     }
-  };
+      
+  };*/
 
   // TODO Implement logic to handle html elements
 });
@@ -66,43 +69,6 @@ function uploadQuestions() {
   })
 }
 
-function createGame() {
-  // Create game room as master
-  playerName = document.getElementById('playerName').value;
-  fetch(`${serverUrl}/master/create_game`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ name: playerName })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.message) {
-      alert(data.message);
-    }
-  })
-  .catch(error => console.error('Error creating game:', error));
-}
-
-function joinGame() {
-  // Join game room as player
-  playerName = document.getElementById('playerName').value;
-  fetch(`${serverUrl}/player/join_game`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ name: playerName })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.message) {
-      alert(data.message);
-    }
-  })
-  .catch(error => console.error('Error joining game:', error));
-}
 
 function startGame() {
   // Start the game
@@ -125,7 +91,7 @@ function updateScore() {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ name: playerName, score: 10 })
+    body: JSON.stringify({ id: playerId, score: 10 }) // Placeholder score
   })
   .then(response => response.json())
   .then(data => {
