@@ -139,7 +139,6 @@ app.get('/master/get_players', async (req, res) => {
 app.post('/player/join_game', async (req, res) => {
   // Add User to JSON file
   const playerName = req.body.name
-  console.log(playerName)
   let players = await readJsonFile('./game_data/players.json');
   if (game_created === false) {
     res.status(400).json({ message: 'Game room not created' });
@@ -186,7 +185,6 @@ let answersReceived; // Declare answersReceived variable globally
 let timeoutId; // Declare timeoutId variable globally
 
 async function game_loop(){
-  console.log(questions)
   for (let i = 0; i < Object.keys(questions).length; i++) {
     // Show question to all players
     const message = {
