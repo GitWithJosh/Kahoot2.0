@@ -25,7 +25,6 @@ app.use(express.static('./client'));
 
 // Manually handle requests to the root path
 app.get('/', (req, res) => {
-  console.log('GET request to /');
   if (game_created === false) {
     // Show master player screen
     res.sendFile(path.join(__dirname, '../client/master/start_screen/start.html'));
