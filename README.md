@@ -1,4 +1,4 @@
-# Kahoot2.0
+# KaHUT2.0 WIP
 Kahoot clone for course project
 
 How to start:
